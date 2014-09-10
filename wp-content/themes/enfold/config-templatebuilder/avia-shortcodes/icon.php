@@ -154,7 +154,7 @@ if ( !class_exists( 'av_font_icon' ) )
                 'link' =>'',
                 'linktarget' => 'no',
                 'custom_class' => '',
-            	), $params['args']));
+            	), $params['args'], $this->config['shortcode']));
 				
 			
 				$inner  = "<div class='avia_icon_element avia_textblock avia_textblock_style'>";
@@ -210,7 +210,7 @@ if ( !class_exists( 'av_font_icon' ) )
                 'link' =>'',
                 'linktarget' => 'no',
                 'font' => ''
-            ), $atts));
+            ), $atts, $this->config['shortcode']));
 
             $char = av_icon($icon, $font);
 

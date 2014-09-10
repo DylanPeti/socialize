@@ -171,7 +171,7 @@ array(
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-				$atts =  shortcode_atts(array('style'=> "grid",  'columns'=> "2", "autoplay"=>true, "interval"=>5), $atts);
+				$atts =  shortcode_atts(array('style'=> "grid",  'columns'=> "2", "autoplay"=>true, "interval"=>5), $atts, $this->config['shortcode']);
 				$custom_class = !empty($meta['custom_class']) ? $meta['custom_class'] : "";
 				extract($atts);
 
@@ -213,7 +213,7 @@ array(
 
 			function av_testimonial_single($atts, $content = "", $shortcodename = "")
 			{
-				extract(shortcode_atts(array('src'=> "",  'name'=> "",  'subtitle'=> "",  'link'=> "", 'linktext'=>"", 'custom_markup' =>'' ), $atts));
+				extract(shortcode_atts(array('src'=> "",  'name'=> "",  'subtitle'=> "",  'link'=> "", 'linktext'=>"", 'custom_markup' =>'' ), $atts, 'av_testimonial_single'));
 
 				$output = "";
 				$avatar = "";

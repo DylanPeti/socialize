@@ -538,7 +538,7 @@ if ( !class_exists( 'avia_sc_slider_full' ) )
 				'stretch'		=> '',
 				'content'		=> ShortcodeHelper::shortcode2array($content, 1)
 				
-				), $atts);
+				), $atts, $this->config['shortcode']);
 				
 				extract($atts);
 				$output  	= "";

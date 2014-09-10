@@ -187,7 +187,7 @@ if ( !class_exists( 'avia_product_slider' ) )
 												'sort'		=> '',
                                                 'offset' => 0,
 		                                 		'categories'=> array()
-		                                 		), $atts);
+		                                 		), $atts, 'av_productslider');
 		}
 
 		public function html()

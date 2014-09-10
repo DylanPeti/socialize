@@ -166,7 +166,7 @@ if ( !class_exists( 'avia_sc_gallery' ) )
 				'columns'		=> 5,
                 'lazyload'      => 'avia_lazyload',
                 'crop_big_preview_thumbnail' => 'avia-gallery-big-crop-thumb'
-				), $atts));
+				), $atts, $this->config['shortcode']));
 
 
 				$attachments = get_posts(array(

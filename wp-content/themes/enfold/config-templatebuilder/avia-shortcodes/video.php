@@ -16,7 +16,7 @@ if ( !class_exists( 'avia_sc_video' ) )
 				$this->config['name']			= __('Video', 'avia_framework' );
 				$this->config['tab']			= __('Media Elements', 'avia_framework' );
 				$this->config['icon']			= AviaBuilder::$path['imagesURL']."sc-video.png";
-				$this->config['order']			= 100;
+				$this->config['order']			= 90;
 				$this->config['target']			= 'avia-target-insert';
 				$this->config['shortcode'] 		= 'av_video';
 				$this->config['modal_data']     = array('modal_class' => 'mediumscreen');
@@ -130,7 +130,7 @@ if ( !class_exists( 'avia_sc_video' ) )
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-				extract(shortcode_atts(array('src' => '', 'src_1' => '', 'src_2' => '', 'autoplay' => '', 'format' => '', 'height'=>'9', 'width'=>'16'), $atts));
+				extract(shortcode_atts(array('src' => '', 'src_1' => '', 'src_2' => '', 'autoplay' => '', 'format' => '', 'height'=>'9', 'width'=>'16'), $atts, $this->config['shortcode']));
 				$custom_class = !empty($meta['custom_class']) ? $meta['custom_class'] : '';
 				$style = '';
 				$html  = '';

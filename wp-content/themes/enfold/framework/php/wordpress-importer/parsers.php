@@ -384,13 +384,14 @@ class WXR_Parser_Regex {
 	var $terms = array();
 	var $base_url = '';
 
+	function __construct() {
+		$this->has_gzip = is_callable( 'gzopen' );
+	}
+	
 	function WXR_Parser_Regex() {
 		$this->__construct();
 	}
 
-	function __construct() {
-		$this->has_gzip = is_callable( 'gzopen' );
-	}
 
 	function parse( $file ) {
 		$wxr_version = $in_post = false;

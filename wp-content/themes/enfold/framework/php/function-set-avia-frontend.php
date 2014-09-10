@@ -412,6 +412,64 @@ if(!function_exists('avia_set_title_tag'))
 
 
 
+if(!function_exists('avia_set_profile_tag'))
+{
+    /**
+     * generates the html profile head tag
+     * @return string the html head tag
+     */
+    function avia_set_profile_tag($echo = true)
+    {
+        $output = apply_filters('avf_profile_head_tag', '<link rel="profile" href="http://gmpg.org/xfn/11" />'."\n");
+		
+        if($echo) echo $output;
+        if(!$echo) return $output;
+    }
+    
+    add_action( 'wp_head', 'avia_set_profile_tag', 10, 0 );
+}
+
+
+
+if(!function_exists('avia_set_rss_tag'))
+{
+    /**
+     * generates the html rss head tag
+     * @return string the rss head tag
+     */
+    function avia_set_rss_tag($echo = true)
+    {
+        $output = '<link rel="alternate" type="application/rss+xml" title="'.get_bloginfo('name').' RSS2 Feed" href="'.avia_get_option('feedburner',get_bloginfo('rss2_url')).'" />'."\n";
+        $output = apply_filters('avf_rss_head_tag', $output);
+
+        if($echo) echo $output;
+        if(!$echo) return $output;
+    }
+    
+    add_action( 'wp_head', 'avia_set_rss_tag', 10, 0 );
+}
+
+
+
+if(!function_exists('avia_set_pingback_tag'))
+{
+    /**
+     * generates the html pingback head tag
+     * @return string the pingback head tag
+     */
+    function avia_set_pingback_tag($echo = true)
+    {
+        $output = apply_filters('avf_pingback_head_tag', '<link rel="pingback" href="'.get_bloginfo( 'pingback_url' ).'" />'."\n");
+
+        if($echo) echo $output;
+        if(!$echo) return $output;
+    }
+    
+    add_action( 'wp_head', 'avia_set_pingback_tag', 10, 0 );
+}
+
+
+
 
 
 if(!function_exists('avia_logo'))
@@ -429,11 +487,14 @@ if(!function_exists('avia_logo'))
 		$alt 			= apply_filters('avf_logo_alt', get_bloginfo('name'));
 		$link 			= apply_filters('avf_logo_link', home_url('/'));
 		
+		
 		if($sub) $sub = "<span class='subtext'>$sub</span>";
 		if($dimension === true) $dimension = "height='100' width='300'"; //basically just for better page speed ranking :P
 
 		if($logo = avia_get_option('logo'))
 		{
+			 $logo = apply_filters('avf_logo', $logo);
+			 if(is_numeric($logo)){ $logo = wp_get_attachment_image_src($logo, 'full'); $logo = $logo[0]; }
 			 $logo = "<img {$dimension} src='{$logo}' alt='{$alt}' />";
 			 $logo = "<$headline_type class='logo'><a href='".$link."'>".$logo."$sub</a></$headline_type>";
 		}
@@ -1186,7 +1247,7 @@ if(!function_exists('avia_debugging_info'))
 	{
 		if ( is_feed() ) return;
 
-		$theme = wp_get_theme( );
+		$theme = wp_get_theme();
 		$child = "";
 
 		if(is_child_theme())
@@ -1223,8 +1284,35 @@ if(!function_exists('avia_debugging_info'))
 	add_action('admin_print_scripts','avia_debugging_info',1000);
 }
 
+if(!function_exists('avia_clean_string'))
+{
+	function avia_clean_string($string) 
+	{
+	   $string = str_replace(' ', '_', $string); // Replaces all spaces with underscores.
+	   $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+	
+	   return preg_replace('/-+/', '-', strtolower ($string)); // Replaces multiple hyphens with single one.
+	}
+}
 
-
+if(!function_exists('kriesi_backlink'))
+{
+	function kriesi_backlink($frontpage_only = false)
+	{	
+		$no = "";
+		$theme_string	= "";
+		$random_number 	= get_option(THEMENAMECLEAN."_fixed_random");
+		if($random_number % 3 == 0) $theme_string = THEMENAME." Theme by Kriesi";
+		if($random_number % 3 == 1) $theme_string = THEMENAME." WordPress Theme by Kriesi";
+		if($random_number % 3 == 2) $theme_string = "powered by ".THEMENAME." WordPress Theme";
+		if(!empty($frontpage_only) && !is_front_page()) $no = "rel='nofollow'";
+		
+		$link = " - <a {$no} href='http://www.kriesi.at'>{$theme_string}</a>";
+	
+		$link = apply_filters("kriesi_backlink", $link);
+		return $link;
+	}
+}
 
 
 

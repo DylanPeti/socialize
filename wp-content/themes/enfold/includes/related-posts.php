@@ -99,7 +99,7 @@ if (!empty($tags) && is_array($tags))
      			if($is_portfolio) $format = "portfolio";
      			if(!$format) $format = get_post_format($related_post->ID);
      			if(!$format) $format = 'standard';
-     			if($title_short) $related_post->post_title = wp_trim_words($related_post->post_title, 17);
+     			if(!empty($title_short)) $related_post->post_title = wp_trim_words($related_post->post_title, 17);
      			
      			
 

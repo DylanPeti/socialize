@@ -212,7 +212,7 @@ function avia_add_cart_button()
 		$output = '<a class="add_to_cart_button button product_type_variable" href="'.get_permalink($product->id).'"><span '.av_icon_string("details").'></span> '.__("Select options","avia_framework").'</a>';
 	}
 
-	if($product->product_type == 'simple' || $product->product_type == 'subscription')
+	if(in_array($product->product_type, array('subscription', 'simple', 'bundle')))
 	{
 		$output .= '<a class="button show_details_button" href="'.get_permalink($product->id).'"><span '.av_icon_string("details").'></span>  '.__("Show Details","avia_framework").'</a>';
 	}

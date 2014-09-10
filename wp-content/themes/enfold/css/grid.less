@@ -41,6 +41,7 @@
 	.boxed#top									{ width: @maxWidth; }
     .boxed .container                           { margin: 0px @gutter; }
     #wrap_all									{ width:100%; position: relative; z-index: 2; overflow: hidden;}
+    .boxed #wrap_all							{  overflow: visible; /*needed for cart icon */}
     /* Nested Column Classes */
     body .unit.alpha, body .units.alpha, body div .first{ margin-left: 0; clear: left;}
     body .unit.alpha, body .units.alpha{width: 100%;}
@@ -411,8 +412,7 @@ clear: both;
 }
 
 .responsive .av_one_half.first.el_before_av_one_fourth,
-.responsive .av_one_fourth.first + .av_one_fourth + .av_one_half,
-.responsive .avia-content-slider-inner .av_one_fourth
+.responsive .av_one_fourth.first + .av_one_fourth + .av_one_half
 {
 width: 100%; 
 }

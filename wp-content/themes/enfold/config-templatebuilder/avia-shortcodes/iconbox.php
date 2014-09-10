@@ -147,7 +147,7 @@ if ( !class_exists( 'avia_sc_icon_box' ) )
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-				extract(shortcode_atts(array('title' => 'Title', 'icon' => '1', 'position' => 'left', 'link' =>'', 'linktarget' => 'no', 'linkelement' =>'', 'font' =>''), $atts));
+				extract(shortcode_atts(array('title' => 'Title', 'icon' => '1', 'position' => 'left', 'link' =>'', 'linktarget' => 'no', 'linkelement' =>'', 'font' =>''), $atts, $this->config['shortcode']));
 
 				
 				$display_char = av_icon($icon, $font);

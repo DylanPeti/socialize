@@ -65,7 +65,7 @@ if( ! class_exists( 'avia_adminpages' ) )
 				if(isset($file_info['extension']) && $file_info['extension'] == "js")
 				{
 					$filename = basename($file_info['basename'], ".".$file_info['extension']) ;
-					wp_enqueue_script(  $filename, AVIA_JS_URL . $file ); 
+					wp_enqueue_script(  $filename, AVIA_JS_URL . $file , false, AV_FRAMEWORK_VERSION ); 
 				}
 			}
 			
@@ -87,7 +87,7 @@ if( ! class_exists( 'avia_adminpages' ) )
 				if(isset($file_info['extension']) && $file_info['extension'] == "css")
 				{
 					$filename = basename($file_info['basename'], ".".$file_info['extension']) ;
-					wp_enqueue_style($filename , AVIA_CSS_URL . $file); 
+					wp_enqueue_style($filename , AVIA_CSS_URL . $file, false, AV_FRAMEWORK_VERSION); 
 				}
 			}
 		}

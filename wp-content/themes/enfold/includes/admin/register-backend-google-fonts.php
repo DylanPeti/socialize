@@ -1,6 +1,6 @@
 <?php
 
-$google_fonts = apply_filters('avf_google_heading_font', array(	'Default'=>'',
+$google_fonts = apply_filters('avf_google_heading_font', array(	__('Default', 'avia_framework') =>'',
 	
 						'Alice'=>'Alice',
 						'Allerta'=>'Allerta',

@@ -23,6 +23,8 @@
 				<div class='container_wrap footer_color' id='footer'>
 
 					<div class='container'>
+					
+
 
 						<?php
 						do_action('avia_before_footer_columns');
@@ -171,5 +173,6 @@
 ?>
 <a href='#top' title='<?php _e('Scroll to top','avia_framework'); ?>' id='scroll-top-link' <?php echo av_icon_string( 'scrolltop' ); ?>><span class="avia_hidden_link_text"><?php _e('Scroll to top','avia_framework'); ?></span></a>
 <div id="fb-root"></div>
+
 </body>
 </html>

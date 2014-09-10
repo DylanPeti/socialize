@@ -46,7 +46,7 @@
 
 #bbpress-forums .status-closed,
 #bbpress-forums .status-closed a {
-
+color: inherit;
 }
 
 #bbpress-forums ul {
@@ -1316,7 +1316,13 @@ transition: 		none;
 
 #bbpress-forums  .wp-core-ui .button:hover{ background: #fff; border-color: #999; }
 
+.bbp-topics-front ul.super-sticky, .bbp-topics ul.super-sticky, .bbp-topics ul.sticky, .bbp-forum-content ul.sticky {
+background-color: #F2FBFF !important;
+}
 
+#top #wrap_all .bbp-body span.page-numbers.dots {
+background: rgba(0, 0, 0, 0);
+}
 
 
 

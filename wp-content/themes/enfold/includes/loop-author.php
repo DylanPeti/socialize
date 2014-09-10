@@ -105,8 +105,16 @@ if (have_posts()) :
                             echo "<span class='text-sep'>/</span>";
                             echo '<span class="blog-categories minor-meta">'.__('in','avia_framework')." ";
                             echo $cats;
-                            echo '</span>';
+                            echo '</span><span class="text-sep text-sep-cat">/</span>';
                         }
+                        
+			echo '<span class="blog-author minor-meta">'.__('by','avia_framework')." ";
+			echo '<span class="entry-author-link" '.avia_markup_helper(array('context' => 'author_name','echo'=>false)).'>';
+			echo '<span class="vcard author"><span class="fn">';
+				the_author_posts_link();
+			echo '</span></span>';
+			echo '</span>';
+			echo '</span>';
 
                         ?>
 

@@ -13,7 +13,7 @@ if ( !class_exists( 'avia_sc_masonry_entries' ) )
 			 */
 			function shortcode_insert_button()
 			{
-				$this->config['name']			= __('Fullwidth Masonry', 'avia_framework' );
+				$this->config['name']			= __('Masonry', 'avia_framework' );
 				$this->config['tab']			= __('Content Elements', 'avia_framework' );
 				$this->config['icon']			= AviaBuilder::$path['imagesURL']."sc-masonry.png";
 				$this->config['order']			= 38;
@@ -21,7 +21,7 @@ if ( !class_exists( 'avia_sc_masonry_entries' ) )
 				$this->config['shortcode'] 		= 'av_masonry_entries';
 				$this->config['tooltip'] 	    = __('Display a fullwidth masonry/grid with blog entries', 'avia_framework' );
 				$this->config['tinyMCE'] 		= array('disable' => "true");
-				$this->config['drag-level'] 	= 1;
+				$this->config['drag-level'] 	= 3;
 			}
 			
 			
@@ -195,6 +195,15 @@ if ( !class_exists( 'avia_sc_masonry_entries' ) )
 			{	
 				$params['innerHtml'] = "<img src='".$this->config['icon']."' title='".$this->config['name']."' />";
 				$params['innerHtml'].= "<div class='avia-element-label'>".$this->config['name']."</div>";
+				
+				$params['innerHtml'].= "<div class='avia-flex-element'>"; 
+				$params['innerHtml'].= 		__('This element will stretch across the whole screen by default.','avia_framework')."<br/>";
+				$params['innerHtml'].= 		__('If you put it inside a color section or column it will only take up the available space','avia_framework');
+				$params['innerHtml'].= "	<div class='avia-flex-element-2nd'>".__('Currently:','avia_framework');
+				$params['innerHtml'].= "	<span class='avia-flex-element-stretched'>&laquo; ".__('Stretch fullwidth','avia_framework')." &raquo;</span>";
+				$params['innerHtml'].= "	<span class='avia-flex-element-content'>| ".__('Adjust to content width','avia_framework')." |</span>";
+				$params['innerHtml'].= "</div></div>";
+				
 				return $params;
 			}
 			
@@ -241,9 +250,7 @@ if ( !class_exists( 'avia_sc_masonry_entries' ) )
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
 				$output  = "";
-				
-				$skipSecond = false;
-				
+								
 				//check if we got a layerslider
 				global $wpdb;
 				
@@ -266,31 +273,11 @@ if ( !class_exists( 'avia_sc_masonry_entries' ) )
 				
 				
 				
-				
-				// if(!ShortcodeHelper::is_top_level()) return $masonry_html; // todo: masonry within columns. doesnt quite work yet 
+				if(!ShortcodeHelper::is_top_level()) return $masonry_html;
 				
 				$output .=  avia_new_section($params);
 				$output .= $masonry_html;
-				$output .= "</div>"; //close section
-				
-				
-				//if the next tag is a section dont create a new section from this shortcode
-				if(!empty($meta['siblings']['next']['tag']) && in_array($meta['siblings']['next']['tag'], AviaBuilder::$full_el ))
-				{
-				    $skipSecond = true;
-				}
-
-				//if there is no next element dont create a new section.
-				if(empty($meta['siblings']['next']['tag']))
-				{
-				    $skipSecond = true;
-				}
-				
-				if(empty($skipSecond)) {
-				
-				$output .= avia_new_section(array('close'=>false, 'id' => "after_masonry"));
-				
-				}
+				$output .= avia_section_after_element_content( $meta , 'after_masonry' );
 				
 				return $output;
 			}
@@ -331,7 +318,7 @@ if ( !class_exists( 'avia_masonry' ) )
 												'auto_ratio' 		=> 1.7, //equals a 16:9 ratio
 												'set_breadcrumb' 	=> true, //no shortcode option for this, modifies the breadcrumb nav, must be false on taxonomy overview
 												'custom_markup'		=> ''
-		                                 		), $atts);
+		                                 		), $atts, 'av_masonry_entries');
 		                                 		
 		  	$this->atts = apply_filters('avf_masonry_settings', $this->atts, self::$element);
 		}
@@ -680,7 +667,7 @@ if ( !class_exists( 'avia_masonry' ) )
 			{ 	
 				$overlay_img = $custom_url			= false;
 				$img_size	 						= 'masonry';
-                		$author = get_the_author_meta('display_name', $entry->post_author);
+				$author = apply_filters('avf_author_name', get_the_author_meta('display_name', $entry->post_author), $entry->post_author);
                 		
 				$this->loop[$key]['text_before']	= "";
 				$this->loop[$key]['text_after']		= "";

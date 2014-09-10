@@ -171,7 +171,7 @@ if ( !class_exists( 'avia_sc_iconlist' ) )
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-				extract(shortcode_atts(array('position'=>'left'), $atts));
+				extract(shortcode_atts(array('position'=>'left'), $atts, $this->config['shortcode']));
 
 				$output	 = "";
 				$output .= "<div class='avia-icon-list-container ".$meta['el_class']."'>";
@@ -186,7 +186,7 @@ if ( !class_exists( 'avia_sc_iconlist' ) )
 
 			function av_iconlist_item($atts, $content = "", $shortcodename = "")
 			{
-                $atts =  shortcode_atts(array('title' => '', 'link' => '', 'icon' => '', 'font' =>'', 'linkelement' =>'', 'linktarget' => '', 'custom_markup' => ''), $atts);
+                $atts =  shortcode_atts(array('title' => '', 'link' => '', 'icon' => '', 'font' =>'', 'linkelement' =>'', 'linktarget' => '', 'custom_markup' => ''), $atts, 'av_iconlist_item');
                 
 				$display_char = av_icon($atts['icon'], $atts['font']);
 				$display_char_wrapper = array();

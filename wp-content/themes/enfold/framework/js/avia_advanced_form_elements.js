@@ -345,6 +345,8 @@ injects data into a target field, based on type of data providing element
 								case 'color': target.css({'color':the_value}); break;
 								case 'set_class': target.attr({'class':the_value}); break;
 								case 'set_id': target.attr({'id':the_value.replace(/\./,'-')}); break;
+								case 'set_id_single': target.attr({ 'id':the_value.split(" ")[0] }); break;
+								case 'width': target.css({'width':the_value + "%"}); break;
 								default: 
 								var fill_in = {};
 								fill_in[property[i]] = the_value;

@@ -242,7 +242,7 @@ if ( !class_exists( 'avia_post_slider' ) )
 		                                 		'custom_query'=> array(),
                                                 'offset' => 0,
                                                 'custom_markup' => ''
-		                                 		), $atts);
+		                                 		), $atts, 'av_postslider');
 		}
 
 		public function html()

@@ -129,7 +129,7 @@
 				ajax_param: 		{extract: true, shortcode: ""},
                 on_load: 			shortcode.modal_on_load,
 				on_save: 			function(values)
-				{
+				{	
 					if(typeof values != "string")
 					{
 						//cleanup values: remove aviaTB addtion to the arguments, cleanup fake args and prepare object for insertion by creating the shortcode string

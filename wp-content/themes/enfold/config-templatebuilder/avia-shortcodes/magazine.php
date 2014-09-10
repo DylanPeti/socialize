@@ -241,7 +241,7 @@ if ( !class_exists( 'avia_magazine' ) )
 		                                 		'offset'				=> 0,
 		                                 		'image_size'			=> array( 'small'=> 'thumbnail', 'big' => 'magazine')
 		                                 		
-		                                 		), $atts);
+		                                 		), $atts, 'av_magazine');
 
 			// fetch the taxonomy and the taxonomy ids
 		    $this->extract_terms();                             		
@@ -385,7 +385,7 @@ if ( !class_exists( 'avia_magazine' ) )
 			}
 
 
-			$query   = apply_filters('avf_masonry_entries_query', $query, $params);
+			$query   = apply_filters('avf_magazine_entries_query', $query, $params);
 			$entries = get_posts( $query );
 			
 			if(!empty($entries) && empty($params['ignore_dublicate_rule']))
@@ -530,6 +530,9 @@ if ( !class_exists( 'avia_magazine' ) )
 			$titleTag		= "h3";
 			$excerpt		= "";
 			$time			= get_the_time(get_option('date_format'), $entry->ID);
+			$separator      = "<span class='av-magazine-text-sep text-sep-date'>/</span>";
+			$author         = apply_filters('avf_author_name', get_the_author_meta('display_name', $entry->post_author), $entry->post_author);
+			$author         = "<span class='av-magazine-author meta-color vcard author'><span class='fn'>". __('by','avia_framework') .' '. $author."</span></span>";
 			$markupEntry  	= avia_markup_helper(array('context' => 'entry','echo'=>false, 'id'=>$entry->ID, 'custom_markup'=>$this->atts['custom_markup']));
 			$markupTitle 	= avia_markup_helper(array('context' => 'entry_title','echo'=>false, 'id'=>$entry->ID, 'custom_markup'=>$this->atts['custom_markup']));
 			$markupContent 	= avia_markup_helper(array('context' => 'entry_content','echo'=>false, 'id'=>$entry->ID, 'custom_markup'=>$this->atts['custom_markup']));
@@ -567,8 +570,9 @@ if ( !class_exists( 'avia_magazine' ) )
 		
 			$output .= 		"<div class='av-magazine-content-wrap'>";
 			$output .=		"<header class='entry-content-header'>";
+			$output .=			"<time class='av-magazine-time updated' {$markupTime}>".$time."</time>";
+			$output .=			$separator.$author;
 			$output .=			"<{$titleTag} class='av-magazine-title entry-title' {$markupTitle}>{$title}</{$titleTag}>";
-			$output .= 			"<time class='av-magazine-time updated' {$markupTime}>".$time."</time>";
 			$output .= 		"</header>";
 if($excerpt)$output .=		"<div class='av-magazine-content entry-content' {$markupContent}>{$excerpt}</div>";
 			$output .= 		"</div>";

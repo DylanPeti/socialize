@@ -489,11 +489,11 @@ if( ! class_exists( 'avia_htmlhelper' ) )
          */
 		function upload( $element )
 		{	
-
 			global $post_ID;
 			$output  = "";
 			$gallery_mode = false;
 			$id_generated = false;
+			$image_url = $element['std'];
 			if(empty($element['button-label'])) $element['button-label'] = "Upload";
 			
 			//get post id of the hidden post that stores the image
@@ -511,6 +511,11 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 			else
 			{
 				$postId = avia_media::get_custom_post($element['name']);
+				if(is_numeric($element['std']))
+				{
+					$image_url = wp_get_attachment_image_src($element['std'], 'full');
+					$image_url = $image_url[0];
+				}
 			}
 			//switch between normal url upload and advanced image id upload
 			$mode = $prevImg = "";
@@ -533,13 +538,13 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 				}
 				else
 				{
-					if(!preg_match('!\.jpg$|\.jpeg$|\.ico$|\.png$|\.gif$!', $element['std']) && $element['std'] != "" )
+					if(!preg_match('!\.jpg$|\.jpeg$|\.ico$|\.png$|\.gif$!', $image_url) && $image_url != "" )
 					{
 						$prevImg = '<a href="#" class="avia_remove_image">remove</a><img src="'.AVIA_IMG_URL.'icons/video.png" alt="" />';
 					}
-					else if($element['std'] != '')
+					else if($image_url != '')
 					{
-						$prevImg = '<a href="#" class="avia_remove_image">remove</a><img src="'.$element['std'].'" alt="" />'; 
+						$prevImg = '<a href="#" class="avia_remove_image">remove</a><img src="'.$image_url.'" alt="" />'; 
 					}
 				}
 			
@@ -858,6 +863,7 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 			{	
 				$select = 'Select...';
 				$entries = $element['subtype'];
+				$add_entries = array();
 				
 				if(isset($element['folder']))
 				{	
@@ -868,9 +874,19 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 						foreach($add_file_array as $file)
 						{
 							if(strpos($file, '.') !== 0)
-							$entries[$element['folderlabel'].$file] = AVIA_BASE_URL.$element['folder'].$file; 
+							$add_entries[$element['folderlabel'].$file] = AVIA_BASE_URL.$element['folder'].$file; 
+						}
+					
+						if(isset($element['group']))
+						{
+							$entries[$element['group']] = $add_entries;
+						}
+						else
+						{
+							$entries = array_merge($entries, $add_entries);
 						}
 					}
+						
 				}
 			}
 			
@@ -974,6 +990,34 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 		}
 		
 		
+		function select_sidebar( $element )
+		{
+			$save_as = array();
+			foreach($element['additions'] as $key => $additions)
+			{
+				if($additions == "%result%") 
+				{
+					$save_as = $key;
+					unset($element['additions'][$key]);
+				}
+			}
+			
+			if(empty($save_as))
+			{
+				$element['subtype'] = av_backend_registered_sidebars($element['additions'] , $element['exclude']);
+			}
+			else
+			{
+				$element['subtype'] = $element['additions'];
+				$element['subtype'][$save_as] = av_backend_registered_sidebars(array() , $element['exclude']);
+			}
+			
+			return $this->select($element);
+		}
+		
+		
+		
+		
 		/**
          * 
          * The hidden method renders a div for a visually conected group
@@ -991,7 +1035,7 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 			} 
 			
 			if(isset($element['name'])) $data = "data-group-name='".$element['name']."'";
-			if(isset($element['inactive'])) { $data .= " data-group-inactive='".$element['inactive']."'"; $extraclass .= " inactive_visible";}
+			if(isset($element['inactive'])) { $data .= " data-group-inactive='".htmlspecialchars($element['inactive'], ENT_QUOTES)."'"; $extraclass .= " inactive_visible";}
 
 		
 			$output  = '<div class="avia_visual_set avia_'.$element['type'].$extraclass.' '.$element['class'].'" id="'.$element['id'].'" '.$data.'>';
@@ -1035,13 +1079,30 @@ if( ! class_exists( 'avia_htmlhelper' ) )
          */
   		function import( $element )
 		{	
-			$output = "";
+			$data = "";
+			$extra = "";
+			
+			if(isset($element['files'])) $data = "data-files='".$element['files']."'";
+			if(!empty($element['image'])) $extra = "av-import-with-image";
+			
+			
+			$output  = "<div class='av-import-wrap {$extra}'>";
 			$nonce	 = 	wp_create_nonce ('avia_nonce_import_dummy_data');
 			$output .= '<input type="hidden" name="avia-nonce-import" value="'.$nonce.'" />';
-			$output .= '<span class="avia_style_wrap"><a href="#" class="avia_button avia_import_button">Import dummy data</a></span>';
+			
+			if(empty($element['image']))
+			{
+				$output .= '<span class="avia_style_wrap"><a href="#" class="avia_button avia_import_button" '.$data.'>Import dummy data</a></span>';
+			}
+			else
+			{
+				$output .= '<a href="#" class="avia_import_image avia_import_button" '.$data.'><div class="avia_import_overlay">Click to import</div><img src="'.AVIA_BASE_URL.$element['image'].'" alt="" title="" /></a>';
+			}
+			
 			$output .= '<span class="avia_loading avia_import_loading"></span>';
-			$output .= '<div class="avia_import_wait"><strong>Import started.</strong><br/>Please wait a few seconds and dont reload the page. You will be notified as soon as the import has finished! :)</div>';
+			$output .= '<div class="avia_import_wait"><strong>Import started.</strong><br/>Please dont reload the page. You will be notified as soon as the import has finished! (Import usually finishes in less than a minute) :)</div>';
 			$output .= '<div class="avia_import_result"></div>';
+			$output .= "</div>";
 			return $output;
 		}
 		
@@ -1125,7 +1186,7 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 			return $output;
 		}
 		
-		
+	
 		
 		/**
          * 
@@ -1300,7 +1361,6 @@ if( ! class_exists( 'avia_htmlhelper' ) )
          */
 		function hidden_data()
 		{
-		
 			$options = get_option($this->avia_superobject->option_prefix);
 			
 			$output  = '	<div id="avia_hidden_data" class="avia_hidden">';

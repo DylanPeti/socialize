@@ -22,7 +22,9 @@ if (have_posts()) :
 	$current_post['the_id']	   	= get_the_ID();
 	$current_post['parity']	   	= $post_loop_count % 2 ? 'odd' : 'even';
 	$current_post['last']      	= count($wp_query->posts) == $post_loop_count ? " post-entry-last " : "";
+	$current_post['post_type']	= get_post_type($current_post['the_id']);
 	$current_post['post_class'] 	= "post-entry-".$current_post['the_id']." post-loop-".$post_loop_count." post-parity-".$current_post['parity'].$current_post['last']." ".$blog_style;
+	$current_post['post_class']	.= ($current_post['post_type'] == "post") ? '' : ' post';
 	$current_post['post_format'] 	= get_post_format() ? get_post_format() : 'standard';
 	$current_post['post_layout']	= avia_layout_class('main', false);
 
@@ -124,25 +126,25 @@ if (have_posts()) :
 
         echo "<div class='entry-content-wrapper clearfix {$post_format}-content'>";
             echo '<header class="entry-content-header">';
-                echo $title;
+                // echo $title;
 
-                echo "<span class='post-meta-infos'>";
-                $markup = avia_markup_helper(array('context' => 'entry_time','echo'=>false));
-                echo "<time class='date-container minor-meta updated' $markup>".get_the_time(get_option('date_format'))."</time>";
-                echo "<span class='text-sep text-sep-date'>/</span>";
+                // echo "<span class='post-meta-infos'>";
+                // $markup = avia_markup_helper(array('context' => 'entry_time','echo'=>false));
+                // echo "<time class='date-container minor-meta updated' $markup>".get_the_time(get_option('date_format'))."</time>";
+                // echo "<span class='text-sep text-sep-date'>/</span>";
 
 
 
-                    if ( get_comments_number() != "0" || comments_open() ){
+                //     if ( get_comments_number() != "0" || comments_open() ){
 
-                    echo "<span class='comment-container minor-meta'>";
-                    comments_popup_link(  "0 ".__('Comments','avia_framework'),
-                                          "1 ".__('Comment' ,'avia_framework'),
-                                          "% ".__('Comments','avia_framework'),'comments-link',
-                                          "".__('Comments Disabled','avia_framework'));
-                    echo "</span>";
-                    echo "<span class='text-sep text-sep-comment'>/</span>";
-                    }
+                //     echo "<span class='comment-container minor-meta'>";
+                //     comments_popup_link(  "0 ".__('Comments','avia_framework'),
+                //                           "1 ".__('Comment' ,'avia_framework'),
+                //                           "% ".__('Comments','avia_framework'),'comments-link',
+                //                           "".__('Comments Disabled','avia_framework'));
+                //     echo "</span>";
+                //     echo "<span class='text-sep text-sep-comment'>/</span>";
+                //     }
 
 
                     $taxonomies  = get_object_taxonomies(get_post_type($the_id));
@@ -162,26 +164,39 @@ if (have_posts()) :
 
                     if(!empty($cats))
                     {
-                        echo '<span class="blog-categories minor-meta">'.__('in','avia_framework')." ";
-                        echo $cats;
-                        echo '</span><span class="text-sep text-sep-cat">/</span>';
+                        // echo '<span class="blog-categories minor-meta">'.__('in','avia_framework')." ";
+                        // echo $cats;
+                        // echo '</span><span class="text-sep text-sep-cat">/</span>';
                     }
 
 
-                    echo '<span class="blog-author minor-meta">'.__('by','avia_framework')." ";
-                    echo '<span class="entry-author-link" '.avia_markup_helper(array('context' => 'author_name','echo'=>false)).'>';
-                    echo '<span class="vcard author"><span class="fn">';
-                    the_author_posts_link();
-                    echo '</span></span>';
-                    echo '</span>';
-                    echo '</span>';
-                echo '</span>';
+                    // echo '<span class="blog-author minor-meta">'.__('by','avia_framework')." ";
+                    // echo '<span class="entry-author-link" '.avia_markup_helper(array('context' => 'author_name','echo'=>false)).'>';
+                    // echo '<span class="vcard author"><span class="fn">';
+                    // the_author_posts_link();
+                    // echo '</span></span>';
+                    // echo '</span>';
+                    // echo '</span>';
+                // echo '</span>';
             echo '</header>';
 
 
             // echo the post content
             echo '<div class="entry-content" '.avia_markup_helper(array('context' => 'entry_content','echo'=>false)).'>';
+             
+            if(get_field('logo')){
+            $logo = get_field('logo')['url']; ?>
+            <div id='post_logo' style="background: url(<?php echo $logo ?>) no-repeat; background-size:contain;"></div>
+            <?php    }
+            
+
             echo $content;
+          
+            if(get_field('Video')){
+            $embed = wp_oembed_get( get_field('Video'), array('width'=>400));
+            echo $embed;
+            }
+     
             echo '</div>';
 
             echo '<footer class="entry-footer">';
@@ -229,7 +244,7 @@ if (have_posts()) :
         <header class="entry-content-header">
             <h1 class='post-title entry-title'><?php _e('Nothing Found', 'avia_framework'); ?></h1>
         </header>
-
+     
         <p class="entry-content" <?php avia_markup_helper(array('context' => 'entry_content')); ?>><?php _e('Sorry, no posts matched your criteria', 'avia_framework'); ?></p>
 
         <footer class="entry-footer"></footer>

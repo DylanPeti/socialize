@@ -144,7 +144,7 @@ if ( !class_exists( 'avia_sc_heading' ) )
 			 */
 			function editor_element($params)
 			{
-				$params['args'] = shortcode_atts(array('tag' => 'h3', 'padding' => '5', 'heading'=>'', 'color'=>'', 'style'=>'', 'custom_font'=>'', 'size'=>'', 'subheading_active' => '', 'subheading_size'=>'', 'custom_class'=>''), $params['args']);
+				$params['args'] = shortcode_atts(array('tag' => 'h3', 'padding' => '5', 'heading'=>'', 'color'=>'', 'style'=>'', 'custom_font'=>'', 'size'=>'', 'subheading_active' => '', 'subheading_size'=>'', 'custom_class'=>''), $params['args'], $this->config['shortcode']);
 				
 				$templateNAME  	= $this->update_template("name", "{{name}}");
 			
@@ -172,7 +172,7 @@ if ( !class_exists( 'avia_sc_heading' ) )
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-			    extract(shortcode_atts(array('tag' => 'h3', 'padding' => '5', 'heading'=>'', 'color'=>'', 'style'=>'', 'custom_font'=>'', 'size'=>'', 'subheading_active' => '', 'subheading_size'=>''), $atts));
+			    extract(shortcode_atts(array('tag' => 'h3', 'padding' => '5', 'heading'=>'', 'color'=>'', 'style'=>'', 'custom_font'=>'', 'size'=>'', 'subheading_active' => '', 'subheading_size'=>''), $atts, $this->config['shortcode']));
 			
         		$output  = "";
         		$styling = "";
@@ -227,7 +227,7 @@ if ( !class_exists( 'avia_sc_heading' ) )
 	        		//html markup
 	        		$output .= "<div {$styling} class='av-special-heading av-special-heading-{$tag} {$color} {$style} {$class}'>";
 	        		$output .= 		$before;
-	        		$output .= 		"<{$tag} class='av-special-heading-tag' $markup>{$heading}</{$tag}>";
+	        		$output .= 		"<{$tag} class='av-special-heading-tag' $markup $styling>{$heading}</{$tag}>";
 	        		$output .= 		$after;
 	        		$output .= 		"<div class='special-heading-border'><div class='special-heading-inner-border' {$border_styling}></div></div>";
 	        		$output .= "</div>";

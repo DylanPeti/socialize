@@ -117,7 +117,7 @@ if ( !class_exists( 'avia_sc_hr' ) )
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-			    extract(shortcode_atts(array('class' => 'default', 'height' => '50', 'position'=>'center', 'shadow'=>'no-shadow'), $atts));
+			    extract(shortcode_atts(array('class' => 'default', 'height' => '50', 'position'=>'center', 'shadow'=>'no-shadow'), $atts, $this->config['shortcode']));
 			
         		$output  = "";
         		$style	 = "";

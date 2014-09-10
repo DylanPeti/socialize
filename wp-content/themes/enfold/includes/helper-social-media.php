@@ -76,7 +76,7 @@ if(!class_exists('avia_social_media_icons'))
 			$blank = "target='_blank'";
 			
 			//dont add target blank to relative urls or urls to the same dmoain
-			if(strpos($icon['social_icon_link'], 'http') === false || strpos($icon['social_icon_link'], home_url()) !== false) $blank = "";
+			if(strpos($icon['social_icon_link'], 'http') === false || strpos($icon['social_icon_link'], home_url()) === 0) $blank = "";
 			
 			$html  = "";
 			$html .= "<".$this->args['inside']." class='".$this->args['class']."_".$icon['social_icon']." av-social-link-".$icon['social_icon']." social_icon_".$this->counter."'>";
@@ -185,8 +185,8 @@ if(!class_exists('avia_social_share_links'))
 				
 				foreach($replace as $replace_key => $replace_value)
 				{
-					if(!empty($share['encode']) && $replace_key != 'shortlink' && $replace_key != 'permalink') $replace_value = urlencode($replace_value);
-					if(!empty($share['encode_urls']) && ($replace_key == 'shortlink' || $replace_key == 'permalink')) $replace_value = urlencode($replace_value);
+					if(!empty($share['encode']) && $replace_key != 'shortlink' && $replace_key != 'permalink') $replace_value = rawurlencode($replace_value);
+					if(!empty($share['encode_urls']) && ($replace_key == 'shortlink' || $replace_key == 'permalink')) $replace_value = rawurlencode($replace_value);
 					
 					$url = str_replace("[{$replace_key}]", $replace_value, $url);
 				}
@@ -211,7 +211,7 @@ if(!class_exists('avia_social_share_links'))
 			
 			$this->html .= "<div class='av-share-box'>";
 			$this->html .= 		"<h5 class='av-share-link-description'>";
-			$this->html .= 			__("Share this entry",'avia_framework');
+			$this->html .= 	apply_filters('avia_social_share_title', __("Share this entry",'avia_framework'), $this->args);
 			$this->html .= 		"</h5>";
 			$this->html .= 		"<ul class='av-share-box-list noLightbox'>";
 			

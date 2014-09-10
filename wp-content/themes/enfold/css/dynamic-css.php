@@ -87,9 +87,11 @@ background:$meta;
 color:$bg;
 }
 
+$key .av-default-color, #top $key .av-force-default-color{
+color: $color;
+}
 
-
-$key , $key .site-background, $key .first-quote,  $key .related_image_wrap, $key .gravatar img  $key .hr_content, $key .news-thumb, $key .post-format-icon, $key .ajax_controlls a, $key .tweet-text.avatar_no, $key .big-preview, $key .toggler, $key .toggler.activeTitle:hover, $key #js_sort_items, $key.inner-entry, $key .grid-entry-title, $key .related-format-icon,  .grid-entry $key .avia-arrow, $key .avia-gallery-big, $key .avia-gallery-big, $key .avia-gallery img, $key .grid-content, $key .av-share-box ul, #top $key .av-related-style-full .related-format-icon, $key .related_posts.av-related-style-full a:hover{
+$key , $key .site-background, $key .first-quote,  $key .related_image_wrap, $key .gravatar img  $key .hr_content, $key .news-thumb, $key .post-format-icon, $key .ajax_controlls a, $key .tweet-text.avatar_no, $key .toggler, $key .toggler.activeTitle:hover, $key #js_sort_items, $key.inner-entry, $key .grid-entry-title, $key .related-format-icon,  .grid-entry $key .avia-arrow, $key .avia-gallery-big, $key .avia-gallery-big, $key .avia-gallery img, $key .grid-content, $key .av-share-box ul, #top $key .av-related-style-full .related-format-icon, $key .related_posts.av-related-style-full a:hover, $key.avia-fullwidth-portfolio .pagination .current,  $key.avia-fullwidth-portfolio .pagination a{
 background-color:$bg;
 color: $color;
 }
@@ -131,7 +133,7 @@ background-color:$border;
 border-color: $bg;
 }
 
-$key table, $key .widget_nav_menu ul:first-child>.current-menu-item, $key .widget_nav_menu ul:first-child>.current_page_item, $key .widget_nav_menu ul:first-child>.current-menu-ancestor, $key .pagination .current, $key .pagination a, $key.iconbox_top .iconbox_content, $key .av_promobox, $key .toggle_content, $key .toggler:hover, $key .related_posts_default_image, $key .search-result-counter, $key .container_wrap_meta, $key .avia-content-slider .slide-image, $key .avia-slider-testimonials .avia-testimonial-content, $key .avia-testimonial-arrow-wrap .avia-arrow, $key .news-thumb, $key .portfolio-preview-content, $key .portfolio-preview-content .avia-arrow, $key .av-magazine .av-magazine-entry-icon, $key .related_posts.av-related-style-full a, $key .aviaccordion-slide{
+$key table, $key .widget_nav_menu ul:first-child>.current-menu-item, $key .widget_nav_menu ul:first-child>.current_page_item, $key .widget_nav_menu ul:first-child>.current-menu-ancestor, $key .pagination .current, $key .pagination a, $key.iconbox_top .iconbox_content, $key .av_promobox, $key .toggle_content, $key .toggler:hover, $key .related_posts_default_image, $key .search-result-counter, $key .container_wrap_meta, $key .avia-content-slider .slide-image, $key .avia-slider-testimonials .avia-testimonial-content, $key .avia-testimonial-arrow-wrap .avia-arrow, $key .news-thumb, $key .portfolio-preview-content, $key .portfolio-preview-content .avia-arrow, $key .av-magazine .av-magazine-entry-icon, $key .related_posts.av-related-style-full a, $key .aviaccordion-slide, $key.avia-fullwidth-portfolio .pagination, $key .isotope-item.special_av_fullwidth .av_table_col.portfolio-grid-image{
 background: $bg2;
 }
 
@@ -364,6 +366,14 @@ $key .av-masonry-pagination, $key .av-masonry-pagination:hover{
 	background-color: $bg;
 }
 
+
+$key .container .av-inner-masonry-content, #top $key .container .av-masonry-load-more, #top $key .container .av-masonry-sort, $key .container .av-masonry-entry .avia-arrow{
+	background-color: $bg2;
+}
+
+
+
+
 ";
 
 
@@ -395,7 +405,6 @@ border-top-color:$border;
 
 $key .template-archives  .tabcontainer a, #top $key .tabcontainer .tab:hover, #top $key .tabcontainer .tab.active_tab{
 color:$color;
-border-bottom-color: $color;
 }
 
  $key .template-archives .tabcontainer a:hover{
@@ -485,7 +494,7 @@ border-color:$border;
 
 $stripe = avia_backend_calculate_similar_color($primary, 'lighter', 2);
 $output.= "
-$key .mejs-controls .mejs-time-rail .mejs-time-current, $key .mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-current, $key .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current, $key .theme-color-bar .bar {
+$key .mejs-controls .mejs-time-rail .mejs-time-current, $key .mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-current, $key .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current, $key .theme-color-bar .bar, $key .button.av-sending-button{
 
 background: $primary;
 background-image:	-webkit-linear-gradient(-45deg, $primary 25%, $stripe 25%, $stripe 50%, $primary 50%, $primary 75%, $stripe 75%, $stripe);
@@ -513,6 +522,17 @@ background-color:$bg2;
 }
 
 ";
+
+/*contact form send button*/
+
+$stripe2nd = avia_backend_calculate_similar_color($secondary, 'lighter', 1);
+$output.= " $key .button.av-sending-button{
+background: $secondary;
+background-image:	-webkit-linear-gradient(-45deg, $secondary 25%, $stripe2nd 25%, $stripe2nd 50%, $secondary 50%, $secondary 75%, $stripe2nd 75%, $stripe2nd);
+background-image:      -moz-linear-gradient(-45deg, $secondary 25%, $stripe2nd 25%, $stripe2nd 50%, $secondary 50%, $secondary 75%, $stripe2nd 75%, $stripe2nd);
+background-image:           linear-gradient(-45deg, $secondary 25%, $stripe2nd 25%, $stripe2nd 50%, $secondary 50%, $secondary 75%, $stripe2nd 75%, $stripe2nd);
+border-color:$secondary;
+}";
 
 
 
@@ -717,7 +737,11 @@ $output .= "
 .image-overlay.overlay-type-video .image-overlay-inside:before{ ".av_icon_css_string('ov_video')." }
 ";
 
-
+//lightbox next/prev icons
+$output .= "
+div.avia-popup button.mfp-arrow:before		{ ".av_icon_css_string('next_big')." }
+div.avia-popup button.mfp-arrow-left:before { ".av_icon_css_string('prev_big')."}
+";
 
 
 
@@ -742,6 +766,14 @@ $avia_config['style'] = array(
 		'key'	=>	'direct_input',
 		'value'		=> avia_get_option('quick_css')
 		),
+		
+		array(
+		'key'	=>	'direct_input',
+		'value'	=> ".html_header_transparency #top .avia-builder-el-0 .container{padding-top:".avia_get_header_scroll_offset()."px;}"
+		),
+		
+		
+		
 
 		//google webfonts
 		array(

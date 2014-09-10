@@ -164,7 +164,7 @@ if ( !class_exists( 'avia_sc_toggle' ) )
          */
         function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
         {
-            $atts =  shortcode_atts(array('initial' => '0', 'mode' => 'accordion', 'sort'=>''), $atts);
+            $atts =  shortcode_atts(array('initial' => '0', 'mode' => 'accordion', 'sort'=>''), $atts, $this->config['shortcode']);
             extract($atts);
 
             $output = "";
@@ -188,7 +188,7 @@ if ( !class_exists( 'avia_sc_toggle' ) )
         function av_toggle($atts, $content = "", $shortcodename = "")
         {
             $output = $titleClass = $contentClass = "";
-            $toggle_atts = shortcode_atts(array('title' => '', 'tags' => '', 'custom_id' => '', 'custom_markup' =>''), $atts);
+            $toggle_atts = shortcode_atts(array('title' => '', 'tags' => '', 'custom_id' => '', 'custom_markup' =>''), $atts, 'av_toggle');
 
             if(is_numeric(avia_sc_toggle::$initial) && avia_sc_toggle::$counter == avia_sc_toggle::$initial)
             {

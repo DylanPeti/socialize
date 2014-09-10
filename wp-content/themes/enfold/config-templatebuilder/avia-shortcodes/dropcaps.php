@@ -40,7 +40,7 @@ if ( !class_exists( 'av_dropcap1' ) )
 				//this is a fix that solves the false paragraph removal by wordpress if the dropcaps shortcode is used at the beginning of the content of single posts/pages
 				global $post, $avia_add_p;
 
-				$atts =  shortcode_atts(array('color' => '','custom_bg' => '#444444'), $atts);
+				$atts =  shortcode_atts(array('color' => '','custom_bg' => '#444444'), $atts, $this->config['shortcode']);
 				
 				$add_p = "";
 				$custom_class = !empty($meta['custom_class']) ? $meta['custom_class'] : "";

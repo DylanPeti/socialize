@@ -7,7 +7,13 @@ if ( !defined('WP_LOAD_IMPORTERS') ) define('WP_LOAD_IMPORTERS', true);
 // Load Importer API
 require_once ABSPATH . 'wp-admin/includes/import.php';
 $avia_importerError 	= false;
-$import_filepath 		= apply_filters('avf_import_dummy_filepath', get_template_directory() ."/includes/admin/dummy", THEMENAME) ;
+
+
+$default_path = get_template_directory() ."/includes/admin/dummy";
+if(isset($_POST['files'])) $default_path = get_template_directory() .$_POST['files'];
+$import_filepath = apply_filters('avf_import_dummy_filepath', $default_path, THEMENAME) ;
+
+
 
 //check if wp_importer, the base importer class is available, otherwise include it
 if ( !class_exists( 'WP_Importer' ) ) {
@@ -66,6 +72,7 @@ else
 			$wp_import->saveOptions($import_filepath.'.php');
 			$wp_import->set_menus();
 			
+			
 			do_action('avia_after_import_hook');
 		}
 		else
@@ -75,6 +82,12 @@ else
 			
 			do_action('avia_after_custom_import_hook');
 		}
+		
+		//generic hook. example use: after demo setting import we want to regen cached stylesheet
+		do_action( 'ava_after_import_demo_settings' );
+		
+		
+		update_option('av_demo_content_imported', true);
 	}
 }
 

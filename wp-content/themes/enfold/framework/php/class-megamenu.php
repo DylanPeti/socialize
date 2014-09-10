@@ -508,7 +508,16 @@ if( !class_exists( 'avia_backend_walker' ) )
 							<textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $item->post_content ); ?></textarea>
 						</label>
 					</p>
-
+					
+					<?php 
+					
+					//this hook should provide compatibility with a lot of wordpress plugins altering the walker like http://wordpress.org/plugins/nav-menu-roles/
+					//learn more here: http://shazdeh.me/2014/06/25/custom-fields-nav-menu-items/
+					
+					do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args ); 
+					
+					?>
+					
 					<div class='avia_mega_menu_options'>
 					<!-- ################# avia custom code here ################# -->
 						<?php
@@ -622,7 +631,8 @@ if( !function_exists( 'avia_fallback_menu' ) )
 		echo "<div class='fallback_menu av-main-nav-wrap'>";
 		echo "<ul class='avia_mega menu av-main-nav'>";
 		echo "<li $current><a href='".get_bloginfo('url')."'>".__('Home','avia_framework')."</a></li>";
-		wp_list_pages('title_li=&sort_column=menu_order'.$exclude);
+	    //wp_list_pages('title_li=&sort_column=menu_order'.$exclude);
+		//wp_nav_menu('menu' => 'Quick Links');
 		echo apply_filters('avf_fallback_menu_items', "", 'fallback_menu');
 		echo "</ul></div>";
 	}

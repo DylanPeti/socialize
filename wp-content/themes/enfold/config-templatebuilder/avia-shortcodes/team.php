@@ -208,7 +208,7 @@ if ( !class_exists( 'avia_sc_team' ) )
 			                                 'description' => '',
 			                                 'job' => '',
 			                                 'custom_markup' => ''
-			                                 ), $atts);
+			                                 ), $atts, $this->config['shortcode']);
 				extract($atts);
 
 				$socials = ShortcodeHelper::shortcode2array($content);
@@ -233,7 +233,7 @@ if ( !class_exists( 'avia_sc_team' ) )
 							foreach($socials as $social)
 							{
 								//set defaults
-								$social['attr'] =  shortcode_atts(array('link' => '',  'link_target' => '', 'icon' => '','font'=>'','title' => '' ), $social['attr']);
+								$social['attr'] =  shortcode_atts(array('link' => '',  'link_target' => '', 'icon' => '','font'=>'','title' => '' ), $social['attr'], 'av_social');
 
 								//build link for each social item
 								$tooltip = $social['attr']['title'] ? 'data-avia-tooltip="'.$social['attr']['title'].'"' : "";
@@ -255,7 +255,7 @@ if ( !class_exists( 'avia_sc_team' ) )
 								
                                 $output .= "<span class='hidden av_member_url_markup {$social_class}' $markup>".$social['attr']['link']."</span>";
 
-								$output.= "<a rel='v:url' {$tooltip} {$target} class='{$social_class} avia-team-icon noLightbox' href='".$social['attr']['link']."' {$display_char}>";
+								$output.= "<a rel='v:url' {$tooltip} {$target} class='{$social_class} avia-team-icon ' href='".$social['attr']['link']."' {$display_char}>";
 								$output.= "</a>";
 							}
 
@@ -311,7 +311,8 @@ if ( !class_exists( 'avia_sc_team' ) )
 					'plus.google',
 					'myspace',
 					'forrst',
-					'skype'
+					'skype',
+					'reddit'
 				);
 
 				foreach($services as $service)

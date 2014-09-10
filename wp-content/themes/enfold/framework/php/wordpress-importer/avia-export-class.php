@@ -39,6 +39,9 @@ if( !class_exists( 'avia_wp_export' ) )
 				$export[$subpage_key] = $this->export_array_generator($this->avia_superobject->option_page_data, $this->options[$subpage_key], $subpage);
 			}
 			
+			$widget_settings = $this->export_widgets();
+			$widget_settings = base64_encode(serialize($widget_settings));
+			
 			//export of options
 			$export = base64_encode(serialize($export));
 
@@ -70,6 +73,11 @@ if( !class_exists( 'avia_wp_export' ) )
 			echo '$dynamic_elements = "';
 			print_r($export_dynamic_elements);
 			echo '";</pre>';
+			
+			echo '<pre>'."\n";
+			echo '$widget_settings = "';
+			print_r($widget_settings);
+			echo '";</pre>';
 
 			exit();
 		}
@@ -92,6 +100,39 @@ if( !class_exists( 'avia_wp_export' ) )
             die();
         }
 		
+		function export_widgets()
+		{
+			global $wp_registered_widgets;
+			$options = array();
+			$saved_widgets = array();
+			
+			//get all registered widget option names
+			foreach($wp_registered_widgets as $registered)
+			{
+				if( isset($registered['callback']) && isset($registered['callback'][0]) && isset($registered['callback'][0]->option_name))
+				{
+					$options[] = $registered['callback'][0]->option_name;
+				}
+			}
+			
+			//check if the database options got anything stored but the default value _multiwidget
+			foreach($options as $key)
+			{
+				$widget = get_option($key, array());
+				$treshhold = 1;
+				if(array_key_exists("_multiwidget", $widget)) $treshhold = 2;
+				if($treshhold <= count($widget))
+				{
+					$saved_widgets[$key] = $widget;
+				}
+			}
+			
+			//get sidebar positions
+			$saved_widgets['sidebars_widgets'] = get_option('sidebars_widgets');
+			
+			return $saved_widgets;
+			
+		}
 		
 		
 		function export_array_generator($elements, $options, $subpage, $grouped = false)

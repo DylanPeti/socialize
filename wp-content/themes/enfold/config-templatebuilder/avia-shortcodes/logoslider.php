@@ -283,7 +283,7 @@ if ( !class_exists( 'avia_sc_partner_logo' ) )
 				'content'		=> ShortcodeHelper::shortcode2array($content),
 				'class'			=> $meta['el_class'],
 				'custom_markup' => $meta['custom_markup']
-				), $atts);
+				), $atts, $this->config['shortcode']);
 
 				$logo = new avia_partner_logo($atts);
 				return $logo->html();

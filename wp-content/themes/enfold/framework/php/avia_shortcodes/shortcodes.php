@@ -34,6 +34,7 @@ class avia_shortcodes{
 		add_action( 'wp_ajax_scn_check_url_action', array( &$this, 'ajax_action_check_url' ) );
 		add_action( 'admin_print_scripts', array( &$this, 'extra_shortcodes' ),20);
 		add_action( 'admin_print_scripts', array( &$this, 'extra_styles' ),20);
+		add_action( 'admin_print_scripts', array( &$this, 'avia_preview_nonce' ),20);
 	}
 	
 	function action_admin_init() {
@@ -52,6 +53,18 @@ class avia_shortcodes{
 			wp_enqueue_style('scnStyles');
 		}
 	}
+	
+	function avia_preview_nonce()
+	{	
+		if(!current_user_can('edit_files')) return;
+		
+		$nonce = wp_create_nonce ('avia_shortcode_preview');
+	
+		echo "\n <script type='text/javascript'>\n /* <![CDATA[ */  \n";
+		echo "var avia_shortcode_preview  = '".$nonce."'; \n /* ]]> */ \n ";
+		echo "</script>\n \n ";
+	}
+	
 	
 	function filter_mce_buttons( $buttons ) {
 		

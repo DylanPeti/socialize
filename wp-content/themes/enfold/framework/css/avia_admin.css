@@ -81,6 +81,9 @@ bottom: 20px;
 right:20px;
 }
 
+.avia_text .avia_style_wrap input{
+font-size:12px;
+}
 
 
 .avia_shop_option_link{
@@ -301,7 +304,6 @@ clear: both;
 width:740px;
 position: relative;
 float: left;
-background: transparent url(../images/layout/arrow.png) no-repeat top left;
 }
 
 #avia_options_page .avia_set, #avia_options_page .avia_single_set, #avia_options_page .avia_visual_set {
@@ -309,7 +311,6 @@ width:100%;
 float: left;
 clear: both;
 position: relative;
-background: transparent url(../images/layout/arrow.png) no-repeat top left;
 }
 
 #avia_options_page .avia_single_set, #avia_options_page .avia_visual_set{
@@ -421,7 +422,6 @@ display:none;
 #avia_options_page div .avia_heading{
 font-size: 11px;
 color:#888;
-background: url("../images/layout/arrow.png") no-repeat scroll left top #fff;
 }
 
 .avia_heading h4{
@@ -518,6 +518,55 @@ border: 1px solid #4D9EC3;
 
 #wpwrap #avia_importexport .avia_button{ width: 200px; text-align: center;}
 #wpwrap #avia_importexport .avia_import_loading{left: 256px;}
+
+
+
+
+/*import with image*/
+.av-import-with-image{position: relative; width:92%; border:5px solid #e1e1e1;   -webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
+.av-import-with-image:hover{border-color:#0074A2;}
+#wpwrap .avia_import_image{display: block; outline:none;}
+.avia_import_image img{max-width:100%; display: block;}
+.av-import-with-image .avia_loading {
+background-color: #FFF;
+left: 0px;
+top: 0px;
+border-bottom: 5px solid #E1E1E1;
+border-right: 5px solid #E1E1E1;
+}
+
+.av-import-with-image .avia_import_wait {
+position: absolute;
+bottom: 0;
+background: #FFF;
+width: 90%;
+padding: 5%;
+border-top: 5px solid #E1E1E1;
+z-index: 5;
+}
+
+.av-import-with-image .avia_import_result{display:none;}
+#wpwrap .av-before-plugins{position: relative; top:7px;}
+.avia_import_overlay {
+-webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out;
+z-index: 1;
+width: 50%;
+background: #0074A2;
+padding: 11px 0;
+position: absolute;
+text-align: center;
+border-radius: 2px;
+left: 50%;
+top: 50%;
+margin-left: -25%;
+margin-top: -20px;
+color: #FFF;
+opacity: 0;
+}
+
+.av-import-with-image:hover .avia_import_overlay{opacity: 1;}
+
+
 /*notifications*/
 
 .avia_notification{
@@ -708,6 +757,10 @@ margin: 2px 7px 11px 0;
 display:none;
 }
 
+.avia_mega_menu select{
+max-width:390px;
+}
+
 .menu-item-depth-0 .avia_mega_menu_d0, .avia_mega_active.menu-item-depth-1 .avia_mega_menu_d1, .avia_mega_active.menu-item-depth-2 .avia_mega_menu_d2, .avia_mega_active.menu-item-depth-3 .avia_mega_menu_d2, .avia_mega_active.menu-item-depth-4 .avia_mega_menu_d2, .avia_mega_active.menu-item-depth-5 .avia_mega_menu_d2, .avia_mega_active.menu-item-depth-6 .avia_mega_menu_d2, .avia_mega_active.menu-item-depth-7 .avia_mega_menu_d2, .avia_mega_active.menu-item-depth-8 .avia_mega_menu_d2
 {
 display:block;
@@ -815,7 +868,7 @@ border: 1px solid #578e1b;
 outline: none;
 }
 
-#wpwrap .avia_button_inactive, #wpwrap .avia_button_inactive:hover , #wpwrap .avia_button_inactive:focus{
+#wpwrap .avia_button.avia_button_inactive, #wpwrap .avia_button.avia_button_inactive:hover , #wpwrap .avia_button.avia_button_inactive:focus{
 cursor: default;
 background-color: #aaa;
 border: 1px solid #aaa;
@@ -1690,6 +1743,10 @@ z-index: 100;
 color:#fff;
 }
 
+#avia_options_page .avia_visual_set.inactive_visible{
+padding:0; background: transparent;
+}
+
 .inactive_visible .avia_inactive_overlay span{
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
@@ -1704,6 +1761,13 @@ padding:10px;
 width:70%;
 text-align: center;
 }
+
+.inactive_visible .avia_inactive_overlay a{color:#2EA2CC;}
+
+.inactive_visible{ display:block !important; }
+.avia_tab.inactive_visible{ display:none !important; }
+.avia_active_tab.inactive_visible{ display:block !important; }
+
 
 .inactive_visible.avia_visible .avia_inactive_overlay{
 display:none;
@@ -1811,7 +1875,7 @@ clear:both;
 .mce-tinymce .mce-ico.mce-i-scn_button{
 background: transparent url(../php/avia_shortcodes/tinymce/img/icon.png) center center no-repeat;
 }
-
+html .mce-menu{max-height:410px;}
 
 /*angular adds*/
 
@@ -2055,7 +2119,7 @@ top:40%;
 position: fixed;
 left:50%;
 margin-left:-200px;
-z-index: 500;
+z-index: 15000;
 max-width: 100%;
 width:400px;
 overflow: auto;
@@ -2102,7 +2166,7 @@ bottom: 0;
 min-height: 360px;
 background: #000;
 opacity: .7;
-z-index: 400;
+z-index: 14000;
 }
 
 .avia-popup .popup-close{

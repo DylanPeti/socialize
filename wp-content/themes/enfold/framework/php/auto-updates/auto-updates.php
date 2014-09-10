@@ -199,7 +199,7 @@ if(!function_exists('avia_backend_auto_updater'))
 			if(empty($username) || empty($apikey))
 			{
 				$output  = "<div class='avia_backend_theme_updates'><h3>Theme Updates</h3>";
-				$output .= "Once you have entered and saved your Username and API Key WordPress will check for updates every 12 Hours and notify you here, if one is available <br/><br/> Your ".$parent_string." Version Number: <strong>".$version."</strong></div>";
+				$output .= "Once you have entered and saved your Username and API Key WordPress will check for updates every 12 Hours and notify you here, if one is available <br/><br/> Your current ".$parent_string." Version Number is <strong>".$version."</strong></div>";
 			}
 			else if($update = self::check_for_theme_update())
 			{
@@ -240,7 +240,7 @@ if(!function_exists('avia_backend_auto_updater'))
 				$target  	= network_admin_url('update-core.php?force-check=1');
 			
 				$output  = "<div class='avia_backend_theme_updates'><h3>Theme Updates</h3>";
-				$output .= "No Updates available. You are running the latest version! Great!";
+				$output .= "No Updates available. You are running the latest version! ({$version})";
 				$output .= "<br/><br/> <a href='{$target}'>Check Manually</a> </div>";
 			}
 			

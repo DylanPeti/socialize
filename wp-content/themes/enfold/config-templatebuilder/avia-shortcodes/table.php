@@ -156,7 +156,7 @@ if ( !class_exists( 'avia_sc_table' ) )
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-				$atts 		= shortcode_atts(array('purpose' => 'pricing', 'caption' => '', 'responsive_styling' => 'avia_responsive_table'), $atts);
+				$atts 		= shortcode_atts(array('purpose' => 'pricing', 'caption' => '', 'responsive_styling' => 'avia_responsive_table'), $atts, $this->config['shortcode']);
 				$depth		= 2;
 				$table_rows = ShortcodeHelper::shortcode2array($content, $depth);
 				$output 	= "";

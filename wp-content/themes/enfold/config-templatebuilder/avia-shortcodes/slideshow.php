@@ -320,7 +320,7 @@ if ( !class_exists( 'avia_sc_slider' ) )
 				'content'		=> ShortcodeHelper::shortcode2array($content, 1),
 				'class'			=> $meta['el_class'],
 				'custom_markup' => $meta['custom_markup']
-				), $atts);
+				), $atts, $this->config['shortcode']);
 
 				$slider = new avia_slideshow($atts);
 				return $slider->html();
@@ -891,6 +891,7 @@ if ( !class_exists( 'avia_slideshow_video_helper' ) )
 					}
 					
 					$video_data = apply_filters( 'avf_youtube_video_data', array(
+							'autoplay' 		=> 0,
 							'videoid'		=> $video_id,
 							'hd'			=> 1,
 							'rel'			=> 0,

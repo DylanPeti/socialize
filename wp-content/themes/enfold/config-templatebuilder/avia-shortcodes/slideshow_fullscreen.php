@@ -516,7 +516,7 @@ array(
 				'scroll_down'	=> '',
 				'content'		=> ShortcodeHelper::shortcode2array($content, 1)
 				
-				), $atts);
+				), $atts, $this->config['shortcode']);
 				
 				extract($atts);
 				$output  	= "";

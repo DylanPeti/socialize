@@ -123,7 +123,7 @@ if($headerS['header_topbar'] == true)
 						            'walker' 			=> new avia_responsive_mega_menu()
 						        );
 						
-						        wp_nav_menu($args);
+						        wp_nav_menu(array('menu' => 'Quick Links'));
 						        
 						    if($headerS['header_social'] == 'icon_active_main' && empty($headerS['bottom_menu'])) echo $icons;    
 						        
@@ -132,6 +132,7 @@ if($headerS['header_topbar'] == true)
 						    /*
 						    * Hook that can be used for plugins and theme extensions
 						    */
+						    
 						    do_action('ava_after_main_menu');
 						?>
 						
@@ -145,3 +146,5 @@ if($headerS['header_topbar'] == true)
 
 <!-- end header -->
 </header>
+
+

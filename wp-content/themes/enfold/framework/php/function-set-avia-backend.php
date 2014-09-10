@@ -47,6 +47,7 @@ if(!class_exists('avia_update_helper'))
 			{		
 				do_action('ava_trigger_updates', $this->db_version, $this->theme_version);
 				update_option($this->option_key, $this->theme_version);
+				do_action( 'ava_after_theme_update' );
 			}
 		}
 	}
@@ -520,6 +521,20 @@ if(!function_exists('avia_backend_theme_activation'))
 		global $pagenow;
 		if ( is_admin() && 'themes.php' == $pagenow && isset( $_GET['activated'] ) )
 		{
+			# set initial version of the theme
+			if(function_exists('wp_get_theme'))
+			{
+				$theme = wp_get_theme();
+				if(is_child_theme()) $theme = wp_get_theme( $theme->get('Template') );
+				
+				if(!get_option(THEMENAMECLEAN."_initial_version"))
+				{
+					update_option(THEMENAMECLEAN."_initial_version", $theme->get('Version'));
+					update_option(THEMENAMECLEAN."_fixed_random",    rand(1, 10));
+				}
+			}
+			
+		
 			#set frontpage to display_posts
 			update_option('show_on_front', 'posts');
 
@@ -738,9 +753,24 @@ if(!function_exists('avia_backend_create_file'))
 	}
 }
 
-
-
-
+if(!function_exists('av_backend_registered_sidebars'))
+{
+	function av_backend_registered_sidebars($sidebars = array(), $exclude = array())
+	{
+		//fetch all registered sidebars and save them to the sidebars array
+		global $wp_registered_sidebars;
+		
+		foreach($wp_registered_sidebars as $sidebar)
+		{
+			if( !in_array($sidebar['name'], $exclude))
+			{
+				$sidebars[$sidebar['name']] = $sidebar['name']; 
+			}
+		}
+		
+		return $sidebars;
+	}
+}
 
 // ADMIN MENU
 if(!function_exists('avia_backend_admin_bar_menu'))

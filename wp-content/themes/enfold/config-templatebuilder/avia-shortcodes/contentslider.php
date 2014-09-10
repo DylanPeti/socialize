@@ -222,7 +222,7 @@ if ( !class_exists( 'avia_sc_content_slider' ) )
 				'content'		=> ShortcodeHelper::shortcode2array($content, 1),
 				'class'			=> $meta['el_class'],
                 'custom_markup' => $meta['custom_markup']
-				), $atts);
+				), $atts, $this->config['shortcode']);
 
 				$slider  = new avia_content_slider($atts);
 				return $slider->html();

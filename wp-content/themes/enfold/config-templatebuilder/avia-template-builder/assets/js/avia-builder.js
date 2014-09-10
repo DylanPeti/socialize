@@ -803,11 +803,13 @@ function avia_nl2br (str, is_xhtml)
 				if(text.indexOf('[') === -1)
 				{
                 	text = this.classic_textarea.val(); //testdrive: val() to html()
+                	if(this.tiny_active) text = window.switchEditors._wp_Nop(text);
                 	this.secureContent.val(text);
 				}
 			}
 			
-			if(this.tiny_active) text = window.switchEditors._wp_Nop(text);
+			// if(this.tiny_active) text = window.switchEditors._wp_Nop(text); // moved up 5 lines in order to fix this: https://github.com/AviaThemes/wp-themes/issues/573 
+			
 			
 			//sends the request. calls the the wp_ajax_avia_ajax_fetch_shortcode php function
 			$.ajax({
@@ -1064,7 +1066,7 @@ function avia_nl2br (str, is_xhtml)
 				
 		},
 		
-		update_builder_html: function(element_container, values)
+		update_builder_html: function(element_container, values, force_content_close)
 		{	
 			var output = "",
 				key, 
@@ -1196,7 +1198,7 @@ function avia_nl2br (str, is_xhtml)
 						
 						//create the shortcode string out of the arguments and save it to the data storage textarea
 						var tags = {}, return_val = {};
-						return_val.output = this.createShortcode(values, shortcode, tags);
+						return_val.output = this.createShortcode(values, shortcode, tags, force_content_close);
 						return_val.tags = tags;
 
 						return return_val;
@@ -1207,9 +1209,9 @@ function avia_nl2br (str, is_xhtml)
 		/**
 		* function that gets executed by send_to_datastorage and creates the actual shortcode string out of the arguments and content
 		*/
-		createShortcode: function(values, shortcode, tag)
+		createShortcode: function(values, shortcode, tag, force_content_close)
 		{
-		
+			
 			var key, output = "", attr = "", content = "", i, array_seperator = ",", line_break = "\n";
 			if(!tag) tag = {};
 			
@@ -1252,7 +1254,7 @@ function avia_nl2br (str, is_xhtml)
 			
 			tag.open = "["+shortcode+" "+ $.trim(attr) +"]";
 			output = tag.open;
-			if(content)
+			if(content || (typeof force_content_close !== 'undefined' && force_content_close == true))
 			{
 				if($.trim(content) == "") content = "";
 				
@@ -1351,7 +1353,10 @@ function avia_nl2br (str, is_xhtml)
 		e.stopImmediatePropagation();
 		
 		var $_clicked = $(clicked),
-			item      = $_clicked.parents('.avia-modal-group-element:eq(0)');
+			item      = $_clicked.parents('.avia-modal-group-element:eq(0)'),
+			container = item.parents('.avia-modal-group:eq(0)');
+		
+		container.trigger('av-item-delete', [item]);
 		
 		item.slideUp(200, function()
 		{
@@ -1370,6 +1375,8 @@ function avia_nl2br (str, is_xhtml)
 			newTemplate = $(template.html()).appendTo(parent).css({display:"none"});
 		
 			newTemplate.slideDown(200);
+			
+			parent.trigger('av-item-add', [newTemplate]);
 	}
 	
 	

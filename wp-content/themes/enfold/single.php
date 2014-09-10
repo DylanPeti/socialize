@@ -37,10 +37,15 @@
                         get_template_part( 'includes/loop', 'index' );
 						
                         //show related posts based on tags if there are any
+
+                         echo get_field('logo'); 
+                         
                         get_template_part( 'includes/related-posts');
 
                         //wordpress function that loads the comments template "comments.php"
                         comments_template( '/includes/comments.php');
+
+
 
                     ?>
 

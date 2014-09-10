@@ -118,7 +118,7 @@ if ( !class_exists( 'avia_sc_codeblock' ) )
                 'wrapper_element' => '',
                 'deactivate_wrapper' => false,
                 'wrapper_element_attributes' => '',
-            ), $atts);
+            ), $atts, $this->config['shortcode']);
 
             $content = ' [avia_codeblock_placeholder uid="'.avia_sc_codeblock::$codeblock_id.'"] ';
             if(!empty($atts['wrapper_element'])) $content = "<{$atts['wrapper_element']} {$atts['wrapper_element_attributes']}>{$content}</{$atts['wrapper_element']}>";
@@ -165,7 +165,7 @@ if ( !class_exists( 'avia_sc_codeblock' ) )
 			            
 			            $codeblock = !empty($atts['escape_html']) ? esc_html($codeblock) : $codeblock;
 			            $codeblock = !empty($atts['escape_html']) && empty($atts['wrapper_element']) ? nl2br($codeblock) : $codeblock;
-			            $codeblock = !empty($atts['deactivate_shortcode']) ? do_shortcode($codeblock) : $codeblock;
+			            $codeblock = empty($atts['deactivate_shortcode']) ? do_shortcode($codeblock) : $codeblock;
 			        }
 			
 			        self::$codeblocks[$key] = $codeblock;

@@ -198,7 +198,7 @@ if ( !class_exists( 'avia_sc_tab' ) )
          */
         function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
         {
-            $atts =  shortcode_atts(array('initial' => '1', 'position' => 'top_tab', 'boxed'=>'border_tabs'), $atts);
+            $atts =  shortcode_atts(array('initial' => '1', 'position' => 'top_tab', 'boxed'=>'border_tabs'), $atts, $this->config['shortcode']);
             extract($atts);
 
             $boxed   = $position != "top_tab" ? $boxed : "";
@@ -219,7 +219,7 @@ if ( !class_exists( 'avia_sc_tab' ) )
         {
             
             $output = $titleClass  = $contentClass = $icon = "";
-            $tab_atts = shortcode_atts(array('title' => '', 'icon_select'=>'no', 'icon' =>"", 'custom_id' =>'', 'font' =>'', 'custom_markup' => ''), $atts);
+            $tab_atts = shortcode_atts(array('title' => '', 'icon_select'=>'no', 'icon' =>"", 'custom_id' =>'', 'font' =>'', 'custom_markup' => ''), $atts, 'av_tab');
             
             $display_char = av_icon($tab_atts['icon'], $tab_atts['font']);
 

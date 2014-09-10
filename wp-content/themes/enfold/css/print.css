@@ -156,8 +156,35 @@ nav,
 /*Button*/
 /*Notification*/
 /*Tabs*/
+#top .tab_titles {
+  display: none;
+}
+
+#top .tabcontainer .tab.fullsize-tab{
+  display: block;
+  border-bottom: none;
+}
+
+#top .tab_content{
+  display: block;
+  visibility: visible;
+  z-index: 3;
+  position: relative;
+  overflow: auto;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  left: 0;
+  width: auto;
+  background-color: #fcfcfc;
+  color: #666666;
+}
+
+#top .tab_inner_content{
+  left: 0;
+}
 /*Accordion*/
-.js_active .toggle_wrap {
+#top .toggle_wrap {
   visibility: visible;
   display: block;
   position: static;

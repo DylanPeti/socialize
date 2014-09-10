@@ -117,7 +117,7 @@ if ( !class_exists( 'avia_sc_postcontent' ) && current_theme_supports('experimen
 			 */
 			function shortcode_handler($atts, $content = "", $shortcodename = "", $meta = "")
 			{
-				extract(shortcode_atts(array('link' => ''), $atts));
+				extract(shortcode_atts(array('link' => ''), $atts, $this->config['shortcode']));
 
 				$output  = "";
 				$post_id = function_exists('avia_get_the_id') ? avia_get_the_id() : get_the_ID();

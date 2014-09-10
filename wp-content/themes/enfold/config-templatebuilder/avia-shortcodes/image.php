@@ -68,6 +68,7 @@ if ( !class_exists( 'avia_sc_image' ) )
 							"std" 	=> "no-animation",
 							"subtype" => array(
 												__('None',  'avia_framework' ) =>'no-animation',
+												__('Pop up',  'avia_framework' ) =>'pop-up',
 												__('Top to Bottom',  'avia_framework' ) =>'top-to-bottom',
 												__('Bottom to Top',  'avia_framework' ) =>'bottom-to-top',
 												__('Left to Right',  'avia_framework' ) =>'left-to-right',
@@ -97,10 +98,69 @@ if ( !class_exists( 'avia_sc_image' ) )
                         "type" 	=> "select",
                         "std"	=> "",
                         "required"=> array('link','not_empty_and','lightbox'),
-                        "subtype" => AviaHtmlHelper::linking_options()),
-
-
+                        "subtype" => AviaHtmlHelper::linking_options()
+                        ),
+						
+						
+					array(
+							"name" 	=> __("Image Styling", 'avia_framework' ),
+							"desc" 	=> __("Chose a styling variaton", 'avia_framework' ),
+							"id" 	=> "styling",
+							"type" 	=> "select",
+							"std" 	=> "",
+							"subtype" => array(
+												__('Default',  'avia_framework' ) 	=>'',
+												__('Circle (image height and width must be equal)',  'avia_framework' ) 	=>'circle',
+												__('No Styling (no border, no border radius etc)',  'avia_framework' ) =>'no-styling',
+												)
+							),
+							
+					array(
+						"name" 	=> __("Image Caption", 'avia_framework' ),
+						"desc" 	=> __("Display a caption overlay?", 'avia_framework' ),
+						"id" 	=> "caption",
+						"type" 	=> "select",
+						"std" 	=> "",
+						"subtype" => array(
+											__('No',  'avia_framework' ) 	=>'',
+											__('Yes',  'avia_framework' ) 	=>'yes',
+											)
+						),
+					
+					array(
+						"name" 		=> __("Caption", 'avia_framework' ),
+						"id" 		=> "content",
+						"type" 		=> "textarea",
+                        "required"	=> array('caption','equals','yes'),
+						"std" 		=> "",
+						),
+						
+						
+					array(	"name" 	=> __("Caption custom font size?", 'avia_framework' ),
+							"desc" 	=> __("Size of your caption in pixel", 'avia_framework' ),
+				            "id" 	=> "font_size",
+				            "type" 	=> "select",
+                        	"required"	=> array('caption','equals','yes'),
+				            "subtype" => AviaHtmlHelper::number_array(10,40,1, array('Default' =>''),'px'),
+				            "std" => ""),	
+				            
+					array(
+						"name" 	=> __("Caption Appearance", 'avia_framework' ),
+						"desc" 	=> __("When to display the caption?", 'avia_framework' ),
+						"id" 	=> "appearance",
+						"type" 	=> "select",
+						"std" 	=> "",
+                        "required"	=> array('caption','equals','yes'),
+						"subtype" => array(
+											__('Always display caption',  'avia_framework' ) 	=>'',
+											__('Only display on hover',  'avia_framework' ) 	=>'on-hover',
+											)
+						),	
 						);
+						
+						
+						
+						
 			}
 
 			/**
@@ -116,8 +176,12 @@ if ( !class_exists( 'avia_sc_image' ) )
 			{
 				$template = $this->update_template("src", "<img src='{{src}}' alt=''/>");
 				$img	  = "";
-
-				if(isset($params['args']['src']) && is_numeric($params['args']['src']))
+				
+				if(!empty($params['args']['attachment']) && !empty($params['args']['attachment_size']))
+				{
+					$img = wp_get_attachment_image($params['args']['attachment'],$params['args']['attachment_size']);
+				}
+				else if(isset($params['args']['src']) && is_numeric($params['args']['src']))
 				{
 					$img = wp_get_attachment_image($params['args']['src'],'large');
 				}
@@ -127,7 +191,6 @@ if ( !class_exists( 'avia_sc_image' ) )
 				}
 
 
-				$params['content'] = NULL;
 				$params['innerHtml']  = "<div class='avia_image avia_image_style avia_hidden_bg_box'>";
 				$params['innerHtml'] .= "<div ".$this->class_by_arguments('align' ,$params['args']).">";
 				$params['innerHtml'] .= "<div class='avia_image_container' {$template}>{$img}</div>";
@@ -153,7 +216,7 @@ if ( !class_exists( 'avia_sc_image' ) )
 				$alt 	= "";
 				$title 	= "";
 
-				extract(shortcode_atts(array('src'=>'', 'animation'=>'no-animation', 'link'=>'', 'attachment'=>'', 'target'=>'no'), $atts));
+				extract(shortcode_atts(array('src'=>'', 'animation'=>'no-animation', 'link'=>'', 'attachment'=>'', 'attachment_size'=>'', 'target'=>'no', 'styling' =>'', 'caption'=>'', 'font_size'=>'', 'appearance'=>'' ), $atts, $this->config['shortcode']));
 
 				if(!empty($attachment))
 				{
@@ -164,6 +227,12 @@ if ( !class_exists( 'avia_sc_image' ) )
 						$alt = get_post_meta($attachment_entry->ID, '_wp_attachment_image_alt', true);
 	                	$alt = !empty($alt) ? esc_attr($alt) : '';
 	                	$title = trim($attachment_entry->post_title) ? esc_attr($attachment_entry->post_title) : "";
+	                	
+	                	if(!empty($attachment_size))
+						{
+							$src = wp_get_attachment_image_src($attachment_entry->ID, $attachment_size);
+							$src = !empty($src[0]) ? $src[0] : "";
+						}
 					}
 				}
 				else
@@ -171,12 +240,13 @@ if ( !class_exists( 'avia_sc_image' ) )
 					$attachment = false;
 				}
 
-
+			
 
 				if(!empty($src))
 				{
-					$class = $animation == "no-animation" ? "" :"avia_animated_image avia_animate_when_almost_visible ".$animation;
-
+					$class  = $animation == "no-animation" ? "" :"avia_animated_image avia_animate_when_almost_visible ".$animation;
+					$class .= " av-styling-".$styling;
+					
 					if(is_numeric($src))
 					{
 						//$output = wp_get_attachment_image($src,'large');
@@ -188,21 +258,39 @@ if ( !class_exists( 'avia_sc_image' ) )
 
 						$blank = (strpos($target, '_blank') !== false || $target == 'yes') ? ' target="_blank" ' : "";
 						$blank .= strpos($target, 'nofollow') !== false ? ' rel="nofollow" ' : "";
-
+						
+						$overlay = "";
+						$style = "";
+						
+						if($font_size)
+						{
+							$style = "style='font-size: {$font_size}px;'";
+						}
+						
+						if($caption == "yes")
+						{	
+							$content = ShortcodeHelper::avia_apply_autop(ShortcodeHelper::avia_remove_autop($content));
+							$overlay = "<div class='av-image-caption-overlay'><div class='av-image-caption-overlay-position'><div class='av-image-caption-overlay-center' {$style}>{$content}</div></div></div>";
+							$class .= " noHover ";
+							
+							if($appearance) $class .= " av-overlay-".$appearance;
+						}
 
                         $markup_url = avia_markup_helper(array('context' => 'image_url','echo'=>false, 'custom_markup'=>$meta['custom_markup']));
                         $markup = avia_markup_helper(array('context' => 'image','echo'=>false, 'custom_markup'=>$meta['custom_markup']));
 
-                        $output .= "<span class='avia-image-container' $markup>";
+                        $output .= "<div class='avia-image-container {$class} ".$meta['el_class']." ".$this->class_by_arguments('align' ,$atts, true)."' $markup >";
+                        $output .= "<div class='avia-image-container-inner'>";
 						if($link)
 						{
-							$output.= "<a href='{$link}' class='avia_image ".$meta['el_class']." ".$this->class_by_arguments('align' ,$atts, true)."' {$blank}><img class='avia_image {$class}' src='{$src}' alt='{$alt}' title='{$title}' $markup_url /></a>";
+							$output.= "<a href='{$link}' class='avia_image'  {$blank}>{$overlay}<img class='avia_image ' src='{$src}' alt='{$alt}' title='{$title}' $markup_url /></a>";
 						}
 						else
 						{
-							$output.= "<img class='avia_image ".$meta['el_class']." ".$this->class_by_arguments('align' ,$atts, true)." {$class}' src='{$src}' alt='{$alt}' title='{$title}'  $markup_url />";
+							$output.= "{$overlay}<img class='avia_image ' src='{$src}' alt='{$alt}' title='{$title}'  $markup_url />";
 						}
-                        $output .= "</span>";
+                        $output .= "</div>";
+                        $output .= "</div>";
 					}
 
 

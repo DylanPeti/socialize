@@ -226,12 +226,7 @@ if(is_admin())
 	require( AVIA_PHP.'class-update-notifier.php' );
 }
 
-
-
-
-
-
-
+if( ! defined('THEMENAMECLEAN' ) ) { define( 'THEMENAMECLEAN', avia_clean_string($avia_base_data['Title']) ); }
 
 
 

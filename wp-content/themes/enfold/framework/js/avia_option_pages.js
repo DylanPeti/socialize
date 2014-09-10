@@ -30,16 +30,18 @@ jQuery(function($) {
 			if(!$('#avia_options_page').length) return;
 		
 			var container = $(this),
+				innerContainer =  $('.avia_options_container',container),
 				headContainer = $('.avia_section_header',container),
 				sidebar = $('.avia_sidebar_content'),
 				urlHash = window.location.hash.replace(/^\#goto_/,"avia_"),
-				hashActive = $('.avia_subpage_container', container).filter('[id='+urlHash+']');	
+				hashActive = $('.avia_subpage_container', container).filter('[id="'+urlHash+'"]');	
 			
+	
 			headContainer.each(function()
 			{
 				var heading = $(this),
-					subContainer = heading.parent('.avia_subpage_container');
-					
+					subContainer = heading.parent('.avia_subpage_container'),
+					hashtarget	= subContainer.attr('id').replace(/^\avia_/,"goto_");
 					
 					if(hashActive.length)
 					{
@@ -62,6 +64,7 @@ jQuery(function($) {
 					heading.clone(false)
 						   .appendTo(sidebar)
 						   .css({display:'block'})
+						   .addClass(hashtarget)
 						   .click(function()
 						   {
 						   		if(!subContainer.is(':visible'))
@@ -72,6 +75,13 @@ jQuery(function($) {
 						   			$(this).addClass('avia_active_nav');
 						   		}
 						   });
+				});
+				
+				
+				innerContainer.find('a[href*="goto_"]').on('click', function()
+				{
+					$(this.hash.replace("#",".")).trigger('click');
+					return false;
 				});
 				
 
@@ -392,13 +402,19 @@ jQuery(function($) {
 			
 			var button = $(this),
 				me = passed.data.set,
-				waitLabel = $('.avia_import_wait', me.container),
+				container = button.parents('.avia_section').eq(0),
+				waitLabel = $('.avia_import_wait', container),
 				answer = "",
-				activate = true;
+				activate = true,
+				message = "Importing the dummy data will overwrite your current Theme Option settings and delete any custom Templates you have built with the template Builder. Proceed anyways?";
+			
+			
 								
 			if(button.is('.avia_button_inactive')) return false;
+			if(button.is('.avia_import_image')) message = "Importing the dummy data will overwrite your current Theme Option settings. Proceed anyways?";
 			
-			activate = confirm('Importing the dummy data will overwrite your current Theme Option settings and delete any custom Templates you have built with the template Builder. Proceed anyways?')
+			
+			activate = confirm(message);
 			if(activate == false) return false;
 			
 			$.ajax({
@@ -408,12 +424,13 @@ jQuery(function($) {
 						{
 							action: 'avia_ajax_import_data',
 							_wpnonce: me.nonceImport,
-							_wp_http_referer: me.ref
+							_wp_http_referer: me.ref,
+							files: button.data('files')
 						},
 						beforeSend: function()
 						{
 							//show loader
-							$('.avia_import_loading',  me.container).css({opacity:0, display:"block", visibility:'visible'}).animate({opacity:1});
+							$('.avia_import_loading',  container).css({opacity:0, display:"block", visibility:'visible'}).animate({opacity:1});
 							button.addClass('avia_button_inactive');
 							waitLabel.slideDown();
 						},
@@ -453,7 +470,7 @@ jQuery(function($) {
 						},
 						complete: function(response)
 						{	
-							$('.avia_import_loading',  me.container).fadeOut();
+							$('.avia_import_loading',  container).fadeOut();
 							waitLabel.slideUp();
 						}
 					});

@@ -252,7 +252,7 @@ if ( !class_exists( 'avia_sc_blog' ) )
                                              'contents'     => 'excerpt',
 			                                 'content_length' => 'content',
                                              'offset' => '0'
-			                                 ), $atts);
+			                                 ), $atts, $this->config['shortcode']);
 
 				if($atts['blog_style'] == "blog-grid")
 				{

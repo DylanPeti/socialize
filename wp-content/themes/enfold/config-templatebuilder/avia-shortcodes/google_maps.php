@@ -259,7 +259,7 @@ if ( !class_exists( 'avia_sc_gmaps' ) )
 				'handle'		=> $shortcodename,
 				'content'		=> ShortcodeHelper::shortcode2array($content, 1)
 				
-				), $atts);
+				), $atts, $this->config['shortcode']);
 				
 				$atts['zoom_control'] 			= empty($atts['zoom_control']) ? false : true;
 				$atts['pan_control']  			= empty($atts['pan_control']) ? false : true;

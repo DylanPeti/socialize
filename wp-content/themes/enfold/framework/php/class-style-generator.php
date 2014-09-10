@@ -288,8 +288,8 @@ if( !class_exists( 'avia_style_generator' ) )
 			$rule_split = explode('__',$rule['value']);
 			if(!isset($rule_split[1])) $rule_split[1] = 1;
 			$this->footer .= "\n<!-- cufon font replacement -->\n";
-			$this->footer .= "<script type='text/javascript' src='".AVIA_JS_URL."fonts/cufon.js'></script>\n";
-			$this->footer .= "<script type='text/javascript' src='".AVIA_JS_URL."fonts/".$rule_split[0].".font.js'></script>\n";
+			$this->footer .= "<script type='text/javascript' src='".AVIA_BASE_URL."fonts/cufon.js'></script>\n";
+			$this->footer .= "<script type='text/javascript' src='".AVIA_BASE_URL."fonts/".$rule_split[0].".font.js'></script>\n";
 			$this->footer .= "<script type='text/javascript'>\n\t
 			var avia_cufon_size_mod = '".$rule_split[1]."'; \n\tCufon.replace('".$rule['elements']."',{  fontFamily: 'cufon', hover:'true' }); \n</script>\n";
 		}
@@ -362,7 +362,7 @@ if( !class_exists( 'avia_style_generator' ) )
 			if(empty($this->google_fontlist)) return;
 		
 			$this->extra_output .= "\n<!-- google webfont font replacement -->\n";
-			$this->extra_output .= "<link rel='stylesheet' id='avia-google-webfont' href='//fonts.googleapis.com/css?family=".$this->google_fontlist."' type='text/css' media='all'/> \n";
+			$this->extra_output .= "<link rel='stylesheet' id='avia-google-webfont' href='//fonts.googleapis.com/css?family=".apply_filters('avf_google_fontlist', $this->google_fontlist)."' type='text/css' media='all'/> \n";
 		}
 		
 		

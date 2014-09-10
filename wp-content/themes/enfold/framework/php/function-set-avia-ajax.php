@@ -520,7 +520,7 @@ if(!function_exists('avia_ajax_import_data'))
 	{				
 		//check if user is allowed to save and if its his intention with a nonce check
 		if(function_exists('check_ajax_referer')) { check_ajax_referer('avia_nonce_import_dummy_data'); }
-		
+
 		require_once AVIA_PHP . 'inc-avia-importer.php';
 
 		die('avia_import');
