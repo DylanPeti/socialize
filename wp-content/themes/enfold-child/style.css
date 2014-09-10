@@ -1,0 +1,106 @@
+/*
+ Theme Name:   enfold Child
+ Theme URI:    http://example.com/twenty-fourteen-child/
+ Description:  enfold Child Theme
+ Author:       Dylan Peti
+ Author URI:   http://example.com
+ Template:     enfold
+ Version:      1.0.0
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  enfold-child
+*/
+
+@import url("../enfold/style.css");
+
+@font-face{
+	font-family: open-sans;
+    src: url('/socialize_copy_over/wp-content/themes/enfold-child/fonts/Open_Sans/OpenSans-Regular.ttf');
+}
+@font-face{
+	font-family: open-sans-extraBold;
+    src: url('/socialize_copy_over/wp-content/themes/enfold-child/fonts/Open_Sans/OpenSans-ExtraBold.ttf');
+}
+body{
+	font-family: open-sans !important;
+   
+}
+h1.ls-l{ text-transform: capitalize !important;}
+.stretch_full.container_wrap.alternate_color.light_bg_color.title_container{ display: none; }
+
+#header_main{ border: none; background-color: #fff;  }
+#header_main > .container{ height: 70px; border: none; }
+#socket{ display: none;}
+#main, .html_header_top.html_header_sticky #main { padding: 0; margin: 0; }
+button{ background-color: rgb(96, 168, 89); width: 160px; height: 30px; border: none; border-radius: 2px; margin-top: 15px; margin-left: 20px; color: #fff;}
+.homepage-post-container{ width: 100%; height: 320px; background-color: #fff; clear: both;   border-bottom: 1px solid #e1e1e1;  }
+.homepage-post-container > div{ display: inline-block; height: 100%; float: left; margin-top: 40px}
+#post-one{ background: url('http://localhost:8888/wp-content/uploads/2014/09/xero-logo.png') no-repeat;
+background-size: contain;
+background-position: left 0;
+width: 10%;
+height: 30%; 
+
+}
+#post-two{ width: 40%; height: 100%; }
+p#post-two-text{width: 88%; margin-left: 20px; margin-top: 0; }
+#post-two span{ margin-left: 20px; font-weight: bold; color: #000; width: 100%;}
+#post-three{ width: 46%; }
+#post-one-a{ background: url('http://localhost:8888/wp-content/uploads/2014/09/social-share.png') no-repeat; 
+background-size: contain;
+background-position: left 0;
+width: 10%;
+height: 30%;
+}
+
+h1#clients-title{ width: 100%; text-align: center; text-transform: capitalize;}
+#footer{ background-color: #000; border: none; }
+#socket{ margin: 0; background-color: #333; border: none; }
+.ls-wp-fullwidth-container{ margin-top: 20px; }
+strong.logo{position: relative; top: 10px; width: 200px;}
+#info span{ color: rgb(96, 168,89); }
+#top-banner{ margin-top: -20px; }
+#menu-quick-links li{
+	display: inline-block;
+	padding: 0 10px;
+}
+main.template-page.content.twelve.alpha.units{ padding: 0; }
+
+
+#top .avia-logo-element-container img{ box-shadow: none;}
+.entry-content{width: 100%; margin-top: 20px;}
+.entry-content p{ width: 45%; float: left; font-style: italic;}
+#post_logo{float: left; margin-top: 20px; width:10%; height: 70px;}
+.entry-content iframe{ width: 400px; float: right; margin-top: 20px;}
+#top .fullsize .template-blog .post .entry-content-wrapper > *{ max-width: 100%;}
+#top .fullsize .template-blog .post .entry-content-wrapper{ max-width: 100%;}
+
+@media only screen and (max-width:750px){
+.entry-content{margin: 0;}
+.entry-content p{font-size: 10px; line-height: 1.3; width: 100%;}
+
+ #post_logo{float: left; margin: 0 auto; /* display: block; */ position: relative; width: 20%; height: 70px; left: 50%; margin-left: -10%; }
+strong.logo {
+position: relative;
+top: 10px !important;
+width: 200px !important;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
